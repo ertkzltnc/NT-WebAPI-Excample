@@ -10,7 +10,7 @@ namespace WebAPI_Giris.Models
         public int StudentID { get; set; }
         public string StudentName { get; set; }
         public int StandardId { get; set; }
-        public  StandardViewModel Standard { get; set; }
+        public StandardViewModel Standard { get; set; }
         public virtual AddressViewModel Address { get; set; }
     }
 }

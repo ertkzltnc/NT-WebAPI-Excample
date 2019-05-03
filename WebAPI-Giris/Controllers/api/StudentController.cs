@@ -25,5 +25,55 @@ namespace WebAPI_Giris.Controllers.api
             return Ok(student);
 
         }
+
+        public IHttpActionResult GetAllStudent()
+        {
+            List<StudentViewModel> student = ctx.Students.Select(x => new StudentViewModel
+            {
+                StudentID = x.StudentID,
+                StudentName = x.StudentName
+            }).ToList<StudentViewModel>();
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return Ok(student);
+
+        }
+        public IHttpActionResult PostNewStudent(StudentViewModel student)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Not a vali,d model");
+            }
+            using (var db=new SchoolDBEntities())
+            {
+                db.Students.Add(new Student()
+                {
+                    StudentID = student.StudentID,
+                    StudentName = student.StudentName
+                });
+                db.SaveChanges();
+            }
+            return Ok();
+        }
+        public IHttpActionResult Put(StudentViewModel student)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Not a vali,d model");
+            }
+            using (var db = new SchoolDBEntities())
+            {
+                db.Students.Add(new  Student()
+                {
+                    StudentID = student.StudentID,
+                    StudentName = student.StudentName
+                });
+                db.SaveChanges();
+            }
+            return Ok();
+        }
+
     }
 }
