@@ -65,12 +65,16 @@ namespace WebAPI_Giris.Controllers.api
             }
             using (var db = new SchoolDBEntities())
             {
-                db.Students.Add(new  Student()
+                var existingStudent = db.Students.Where(s => s.StudentID == student.StudentID).FirstOrDefault<Student>();
+                if (existingStudent !=null)
                 {
-                    StudentID = student.StudentID,
-                    StudentName = student.StudentName
-                });
-                db.SaveChanges();
+                    existingStudent.StudentName = student.StudentName;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             return Ok();
         }

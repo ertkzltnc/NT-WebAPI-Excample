@@ -63,6 +63,10 @@ namespace WebAPI_Giris.Controllers
             }
             return View(student);
         }
+        public ActionResult Update()
+        {
+            return View();
+        }
 
 
     }
