@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using WebAPI_Giris.Models;
@@ -18,6 +19,7 @@ namespace WebAPI_Giris.Controllers
             {
                 //client.BaseAddress = new Uri("http://localhost:50653/api/");
                 client.BaseAddress = new Uri(Request.Url.GetLeftPart(UriPartial.Authority) + "/api/Student");
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/xml"));
 
                 //HTTP GET 
@@ -25,6 +27,10 @@ namespace WebAPI_Giris.Controllers
                 responseTask.Wait();
 
                 var result = responseTask.Result;
+
+
+
+
                 if (result.IsSuccessStatusCode)
                 {
                     var readTask = result.Content.ReadAsAsync<IList<StudentViewModel>>();
@@ -99,7 +105,7 @@ namespace WebAPI_Giris.Controllers
             }
             return View(student);
         }
-
+       
         public ActionResult Delete(int id)
         {
             using (var client=new HttpClient())

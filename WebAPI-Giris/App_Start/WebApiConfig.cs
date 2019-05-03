@@ -10,7 +10,7 @@ namespace WebAPI_Giris
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
             // Web API routes
             config.MapHttpAttributeRoutes();
 
