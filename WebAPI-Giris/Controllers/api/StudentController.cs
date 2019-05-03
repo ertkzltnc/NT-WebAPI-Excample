@@ -78,6 +78,20 @@ namespace WebAPI_Giris.Controllers.api
             }
             return Ok();
         }
+        public IHttpActionResult Delete(int id)
+        {
+            if (id<=0)
+            {
+                return BadRequest("error");
+            }
+            using (var db = new SchoolDBEntities())
+            {
+                var student = db.Students.Where(s => s.StudentID == id).FirstOrDefault();
+                db.Students.Remove(student);
+                db.SaveChanges();
+            }
+            return Ok();
+        }
 
     }
 }

@@ -63,11 +63,59 @@ namespace WebAPI_Giris.Controllers
             }
             return View(student);
         }
-        public ActionResult Update()
+        public ActionResult Edit(int id)
         {
-            return View();
+            StudentViewModel student = null;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Request.Url.GetLeftPart(UriPartial.Authority) + "/api/");
+                //HttpPost
+                var responseTask = client.GetAsync("student?id=" + id.ToString());
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<StudentViewModel>();
+                    readTask.Wait();
+                    student = readTask.Result;
+                }
+            }
+            return View(student);
+        }
+        [System.Web.Mvc.HttpPost]
+        public ActionResult Edit(StudentViewModel student)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Request.Url.GetLeftPart(UriPartial.Authority) + "/api/Student");
+                //HttpPost
+                var putTask = client.PutAsJsonAsync<StudentViewModel>("student", student);
+                putTask.Wait();
+                var result = putTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError(string.Empty, "Server error.Please contact administrator.");
+            }
+            return View(student);
         }
 
+        public ActionResult Delete(int id)
+        {
+            using (var client=new HttpClient())
+            {
+                client.BaseAddress = new Uri(Request.Url.GetLeftPart(UriPartial.Authority) + "/api/");
+                //HttpDelete
+                var deleteTask = client.DeleteAsync("student/"+id.ToString());
+                deleteTask.Wait();
+                var result = deleteTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            return RedirectToAction("Index");
+        }
 
     }
 }
