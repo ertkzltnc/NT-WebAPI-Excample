@@ -20,7 +20,7 @@ namespace WebAPI_Giris.Controllers
                 //client.BaseAddress = new Uri(Request.Url.GetLeftPart(UriPartial.Authority) + "/api/");
                 //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/xml"));
 
-                //HTTP GET
+                //HTTP GET 
                 var responseTask = client.GetAsync("student?id=1");
                 responseTask.Wait();
 
